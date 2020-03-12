@@ -1,5 +1,5 @@
 # About
-shippy system， for golang programming Language practice
+shipping system，for golang programming Language practice
 
 # Usage
 ```
