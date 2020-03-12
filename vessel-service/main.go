@@ -36,7 +36,7 @@ func main() {
     // repo := &VesselRepository{vessels}
 
     server := micro.NewService(
-        micro.Name("ship.vessel"),
+        micro.Name("go.micro.srv.vessel"),
         micro.Version("latest"),
     )
     server.Init()

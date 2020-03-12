@@ -1,7 +1,7 @@
 // vessel-service/proto/vessel/vessel.proto
 syntax = "proto3";
 
-package ship.vessel;
+package go.micro.srv.vessel;
 
 service VesselService {
     // 检查是否有能运送货物的轮船

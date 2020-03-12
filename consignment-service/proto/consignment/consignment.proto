@@ -1,7 +1,7 @@
 // shipper/consignment-service/proto/consignment/consignment.proto
 
 syntax = "proto3";
-package ship.consignment;
+package go.micro.srv.consignment;
 
 // 货轮微服务
 service ShippingService {

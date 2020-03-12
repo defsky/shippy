@@ -10,7 +10,12 @@ services:
       - consignment-service
     environment:
       MICRO_REGISTRY: "mdns"
-
+  user-cli:
+    build: ./user-cli
+    depends_on:
+      - user-service
+    environment:
+      MICRO_REGISTRY: "mdns"
   consignment-service:
     build: ./consignment-service
     ports:
@@ -19,7 +24,7 @@ services:
       - vessel-service
       - datastore
     environment:
-      MICRO_ADRESS: ":50051"
+      MICRO_ADDRESS: ":50051"
       MICRO_REGISTRY: "mdns"
       DB_HOST: "datastore:27017"
 
@@ -30,10 +35,41 @@ services:
     depends_on:
       - datastore
     environment:
-      MICRO_ADRESS: ":50051"
+      MICRO_ADDRESS: ":50051"
       MICRO_REGISTRY: "mdns"
       DB_HOST: "datastore:27017"
+  user-service:
+    build: ./user-service
+    ports:
+      - 50053:50051
+    environment:
+      MICRO_ADDRESS: ":50051"
+      MICRO_REGISTRY: "mdns"
+      SQL_DRV: "postgres"
+      SQL_DSN: "host=database port=5432 user=postgres dbname=ship password=password sslmode=disable"
+    depends_on:
+      - database
   datastore:
     image: mongo
     ports:
       - 27017:27017
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment: 
+      POSTGRES_PASSWORD: "password"
+  api-service:
+    image: microhq/micro
+    ports:
+      - 8080:8080
+      - 8082:8082
+    environment:
+      MICRO_REGISTRY: "mdns"
+      MICRO_API_NAMESPACE: "go.micro.srv"
+      MICRO_API_HANDLER: "rpc"
+    depends_on: 
+      - consignment-service
+      - vessel-service
+      - user-service
+      
